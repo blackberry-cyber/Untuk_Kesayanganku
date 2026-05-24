@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semangat Skripsi Sayang! ❤️</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:100vh;
+            background:linear-gradient(135deg,#ffe5ec,#ffc2d1);
+            overflow:hidden;
+            padding:20px;
+        }
+
+        .popup-box{
+            background:rgba(255,255,255,0.95);
+            backdrop-filter:blur(10px);
+            padding:35px 25px;
+            border-radius:24px;
+            box-shadow:0 15px 35px rgba(255,77,109,0.15);
+            width:100%;
+            max-width:400px;
+            text-align:center;
+            border:2px solid #ffb3c6;
+            animation:popIn .5s cubic-bezier(.175,.885,.32,1.275) forwards;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+        }
+
+        @keyframes popIn{
+            0%{
+                transform:scale(.8);
+                opacity:0;
+            }
+
+            100%{
+                transform:scale(1);
+                opacity:1;
+            }
+        }
+
+        .hidden{
+            display:none !important;
+        }
+
+        h2{
+            color:#ff4d6d;
+            margin-bottom:15px;
+            font-size:1.5rem;
+            font-weight:600;
+        }
+
+        p{
+            color:#4a4a4a;
+            font-size:1rem;
+            line-height:1.6;
+            margin-bottom:25px;
+        }
+
+        input[type="text"]{
+            width:100%;
+            padding:14px;
+            border:2px solid #ffb3c6;
+            border-radius:12px;
+            outline:none;
+            margin-bottom:25px;
+            text-align:center;
+            font-size:1rem;
+            color:#4a4a4a;
+            background-color:#fff;
+            transition:all .3s ease;
+        }
+
+        input[type="text"]:focus{
+            border-color:#ff4d6d;
+            box-shadow:0 0 10px rgba(255,77,109,.2);
+        }
+
+        button{
+            background:#ff4d6d;
+            color:white;
+            border:none;
+            padding:12px 35px;
+            border-radius:25px;
+            font-size:1rem;
+            font-weight:600;
+            cursor:pointer;
+            transition:all .3s ease;
+            box-shadow:0 5px 15px rgba(255,77,109,.3);
+            width:80%;
+        }
+
+        button:hover{
+            background:#ff758f;
+            transform:translateY(-2px);
+            box-shadow:0 8px 20px rgba(255,77,109,.4);
+        }
+
+        button:active{
+            transform:translateY(1px);
+        }
+
+        .video-container{
+            width:100%;
+            border-radius:16px;
+            overflow:hidden;
+            border:3px solid #ffb3c6;
+            margin-bottom:20px;
+            box-shadow:0 5px 15px rgba(0,0,0,.05);
+            background-color:#000;
+        }
+
+        .video-container video{
+            width:100%;
+            height:250px;
+            object-fit:cover;
+            display:block;
+        }
+
+        .love-text{
+            font-size:2rem;
+            color:#ff4d6d;
+            font-weight:700;
+            margin-bottom:20px;
+            letter-spacing:1px;
+            animation:heartbeat 1.2s infinite ease-in-out;
+        }
+
+        @keyframes heartbeat{
+            0%{
+                transform:scale(1);
+            }
+
+            20%{
+                transform:scale(1.1);
+            }
+
+            40%{
+                transform:scale(1);
+            }
+
+            60%{
+                transform:scale(1.15);
+            }
+
+            80%{
+                transform:scale(1);
+            }
+
+            100%{
+                transform:scale(1);
+            }
+        }
+
+    </style>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- POPUP 1 -->
+
+    <div id="popup1" class="popup-box">
+
+        <h2>Halo Sayangkuuu! ✨</h2>
+
+        <p>
+            Sebelum lanjut, masukkan nama kamu dulu yaaaww
+        </p>
+
+        <input 
+            type="text" 
+            id="inputNama" 
+            placeholder="Nama kamu..." 
+            autocomplete="off"
+        >
+
+        <button onclick="lanjutKePopup2()">
+            Oke
+        </button>
+
+    </div>
+
+    <!-- POPUP 2 -->
+
+    <div id="popup2" class="popup-box hidden">
+
+        <h2>Semangat Yaaaa! 🥰</h2>
+
+        <p id="ucapanTeks"></p>
+
+        <button onclick="lanjutKePopup3()">
+            Oke
+        </button>
+
+    </div>
+
+    <!-- POPUP 3 -->
+
+    <div id="popup3" class="popup-box hidden">
+
+        <div class="video-container">
+
+            <video 
+                id="videoKita"
+                controls
+                autoplay
+                loop
+            >
+                <source src="Video Kita.mp4" type="video/mp4">
+
+                Browser kamu tidak mendukung video.
+
+            </video>
+
+        </div>
+
+        <div class="love-text">
+            I Love You Sayangkuuu ❤️
+        </div>
+
+        <button onclick="lanjutKePopup4()">
+            Selanjutnya
+        </button>
+
+    </div>
+
+    <!-- POPUP 4 -->
+
+    <div id="popup4" class="popup-box hidden">
+
+        <h2>Terima Kasih Udah Baca! 💌</h2>
+
+        <p>
+            Kirim balik ucapan ke aku sekarang yaaa cantikk
+        </p>
+
+        <button onclick="kirimWA()">
+            I Love You More ❤️
+        </button>
+
+    </div>
+
+    <script>
+
+        let namaUser = "";
+
+        function dapatkanWaktu(){
+
+            const jam = new Date().getHours();
+
+            if(jam >= 5 && jam < 11){
+                return "selamat pagi 🥰";
+            }
+
+            if(jam >= 11 && jam < 15){
+                return "selamat siang 🥰";
+            }
+
+            if(jam >= 15 && jam < 18){
+                return "selamat sore 🥰";
+            }
+
+            return "selamat malam 🥰";
+        }
+
+        function lanjutKePopup2(){
+
+            const input = document
+                .getElementById('inputNama')
+                .value
+                .trim();
+
+            if(input === ""){
+
+                alert("Namanya diisi dulu dong sayang 😊");
+
+                return;
+            }
+
+            namaUser = input;
+
+            const waktu = dapatkanWaktu();
+
+            document.getElementById('ucapanTeks').innerHTML =
+
+                `Haiii <b>${namaUser}</b> ${waktu}, ` +
+
+                `jangan lupa makan yaa sayangg, dan selalu semangat kuliahnya, jangan lupa skripsi di kerjain yaa sayangkuu. <br><br>` +
+
+                `kamu ga boleh nyerah!!, kalau ada masalah cerita ke aku yaa, sampaikan semua keluh kesah kamu ke aku ❤️`;
+
+            document
+                .getElementById('popup1')
+                .classList
+                .add('hidden');
+
+            document
+                .getElementById('popup2')
+                .classList
+                .remove('hidden');
+        }
+
+        function lanjutKePopup3(){
+
+            document
+                .getElementById('popup2')
+                .classList
+                .add('hidden');
+
+            document
+                .getElementById('popup3')
+                .classList
+                .remove('hidden');
+
+            const video = document.getElementById('videoKita');
+
+            video.play().catch(error => {
+
+                console.log(
+                    "Autoplay diblokir browser."
+                );
+
+            });
+        }
+
+        function lanjutKePopup4(){
+
+            document
+                .getElementById('popup3')
+                .classList
+                .add('hidden');
+
+            document
+                .getElementById('popup4')
+                .classList
+                .remove('hidden');
+        }
+
+        function kirimWA(){
+
+            const nomorWA = "6282327352166";
+
+            const pesan = encodeURIComponent(
+                "i love you more ❤️"
+            );
+
+            const urlWA =
+                `https://api.whatsapp.com/send?phone=${nomorWA}&text=${pesan}`;
+
+            window.open(urlWA,'_blank');
+        }
+
+    </script>
+
+</body>
+</html>
