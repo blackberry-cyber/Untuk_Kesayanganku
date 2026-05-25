@@ -177,8 +177,8 @@
             <video 
                 id="videoKita"
                 controls
-                autoplay
                 loop
+                playsinline
             >
                 <source src="Video Kita.mp4" type="video/mp4">
                 Browser kamu tidak mendukung video.
@@ -237,6 +237,10 @@
                 `maaf ya sayang aku baru bisa kasih sesuatu yang sederhana ini 😔<br><br>` +
                 `kamu ga boleh nyerah yaa!!, kalau ada masalah cerita ke aku yaa, aku selalu mendukung dan suport kamu, selalu sampaikan semua keluh kesah kamu ke aku ❤️`;
             
+            // Pancing browser agar mengenali interaksi user untuk memutar audio nanti
+            const video = document.getElementById('videoKita');
+            video.load(); 
+
             document.getElementById('popup1').classList.add('hidden');
             document.getElementById('popup2').classList.remove('hidden');
             currentPopup = 2;
@@ -248,8 +252,20 @@
             currentPopup = 3;
 
             const video = document.getElementById('videoKita');
+            
+            // Pengaturan video: pastikan volume penuh, unmuted, dan putar dari awal
+            video.muted = false;
+            video.volume = 1.0;
+            video.currentTime = 0;
+            
+            // Eksekusi putar video dengan suara
             video.play().catch(error => {
-                console.log("Autoplay diblokir browser.");
+                console.log("Autoplay bersuara diblokir sistem browser, mencoba memutar ulang...", error);
+                // Fail-safe jika browser tipe super ketat: putar muted lalu un-mute cepat
+                video.muted = true;
+                video.play().then(() => {
+                    setTimeout(() => { video.muted = false; }, 100);
+                });
             });
 
             // Jalankan efek mengetik perlahan
