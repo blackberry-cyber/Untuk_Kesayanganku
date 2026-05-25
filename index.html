@@ -6,7 +6,6 @@
     <title>Semangat Skripsi Sayang! ❤️</title>
 
     <style>
-
         *{
             margin:0;
             padding:0;
@@ -46,7 +45,6 @@
                 transform:scale(.8);
                 opacity:0;
             }
-
             100%{
                 transform:scale(1);
                 opacity:1;
@@ -132,91 +130,50 @@
         }
 
         .love-text{
-            font-size:2rem;
+            font-size:1.8rem;
             color:#ff4d6d;
             font-weight:700;
             margin-bottom:20px;
             letter-spacing:1px;
-            animation:heartbeat 1.2s infinite ease-in-out;
+            min-height: 2.5rem; 
+        }
+        
+        .heartbeat-animation {
+            animation: heartbeat 2.5s infinite ease-in-out;
         }
 
         @keyframes heartbeat{
-            0%{
-                transform:scale(1);
-            }
-
-            20%{
-                transform:scale(1.1);
-            }
-
-            40%{
-                transform:scale(1);
-            }
-
-            60%{
-                transform:scale(1.15);
-            }
-
-            80%{
-                transform:scale(1);
-            }
-
-            100%{
-                transform:scale(1);
-            }
+            0%, 40%, 80%, 100%{ transform:scale(1); }
+            20%{ transform:scale(1.08); } 
+            60%{ transform:scale(1.12); }
         }
 
     </style>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
 </head>
-
 <body>
 
-    <!-- POPUP 1 -->
-
     <div id="popup1" class="popup-box">
-
         <h2>Halo Sayangkuuu! ✨</h2>
-
-        <p>
-            Sebelum lanjut, masukkan nama kamu dulu yaaaww
-        </p>
-
+        <p>Sebelum lanjut, masukkan nama kamu dulu yaaaww</p>
         <input 
             type="text" 
             id="inputNama" 
             placeholder="Nama kamu..." 
             autocomplete="off"
         >
-
-        <button onclick="lanjutKePopup2()">
-            Oke
-        </button>
-
+        <button id="btnPopup1" onclick="lanjutKePopup2()">Oke</button>
     </div>
-
-    <!-- POPUP 2 -->
 
     <div id="popup2" class="popup-box hidden">
-
-        <h2>Semangat Yaaaa! 🥰</h2>
-
+        <h2>Semangat Yaaaa! 🕊️</h2>
         <p id="ucapanTeks"></p>
-
-        <button onclick="lanjutKePopup3()">
-            Oke
-        </button>
-
+        <button id="btnPopup2" onclick="lanjutKePopup3()">Oke</button>
     </div>
 
-    <!-- POPUP 3 -->
-
     <div id="popup3" class="popup-box hidden">
-
         <div class="video-container">
-
             <video 
                 id="videoKita"
                 controls
@@ -224,150 +181,114 @@
                 loop
             >
                 <source src="Video Kita.mp4" type="video/mp4">
-
                 Browser kamu tidak mendukung video.
-
             </video>
-
         </div>
-
-        <div class="love-text">
-            I Love You Sayangkuuu ❤️
-        </div>
-
-        <button onclick="lanjutKePopup4()">
-            Selanjutnya
-        </button>
-
+        <div id="teksKetik" class="love-text"></div>
+        <button id="btnPopup3" onclick="lanjutKePopup4()">Selanjutnya</button>
     </div>
 
-    <!-- POPUP 4 -->
-
     <div id="popup4" class="popup-box hidden">
-
         <h2>Terima Kasih Udah Baca! 💌</h2>
-
-        <p>
-            Kirim balik ucapan ke aku sekarang yaaa cantikk
-        </p>
-
-        <button onclick="kirimWA()">
-            I Love You More ❤️
-        </button>
-
+        <p>kalau kamu sayang aku, klik tombol di bawah</p>
+        <button id="btnPopup4" onclick="kirimWA()">Klik Aja</button>
     </div>
 
     <script>
-
         let namaUser = "";
+        let currentPopup = 1;
 
-       function dapatkanWaktu(){
+        function dapatkanWaktu(){
+            const jam = new Date().getHours();
+            if(jam >= 0 && jam < 11){ return "selamat pagi 🥰"; }
+            if(jam >= 11 && jam < 15){ return "selamat siang 🥰"; }
+            if(jam >= 15 && jam < 18){ return "selamat sore 🥰"; }
+            return "selamat malam 🥰";
+        }
 
-    const jam = new Date().getHours();
-
-    if(jam >= 0 && jam < 11){
-        return "selamat pagi 🥰";
-    }
-
-    if(jam >= 11 && jam < 15){
-        return "selamat siang 🥰";
-    }
-
-    if(jam >= 15 && jam < 18){
-        return "selamat sore 🥰";
-    }
-
-    return "selamat malam 🥰";
-}
+        // Fitur tekan Enter untuk lanjut
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                if (currentPopup === 1) {
+                    lanjutKePopup2();
+                } else if (currentPopup === 2) {
+                    lanjutKePopup3();
+                } else if (currentPopup === 3) {
+                    lanjutKePopup4();
+                } else if (currentPopup === 4) {
+                    kirimWA();
+                }
+            }
+        });
 
         function lanjutKePopup2(){
-
-            const input = document
-                .getElementById('inputNama')
-                .value
-                .trim();
-
+            const input = document.getElementById('inputNama').value.trim();
             if(input === ""){
-
                 alert("Namanya diisi dulu dong sayang 😊");
-
                 return;
             }
 
             namaUser = input;
-
             const waktu = dapatkanWaktu();
 
             document.getElementById('ucapanTeks').innerHTML =
-
                 `Haiii <b>${namaUser}</b> ${waktu}, ` +
-
-                `jangan lupa makan yaa sayangg, dan selalu semangat kuliahnya, jangan lupa skripsi di kerjain yaa sayangkuu. <br><br>` +
-
-                `kamu ga boleh nyerah!!, kalau ada masalah cerita ke aku yaa, sampaikan semua keluh kesah kamu ke aku ❤️`;
-
-            document
-                .getElementById('popup1')
-                .classList
-                .add('hidden');
-
-            document
-                .getElementById('popup2')
-                .classList
-                .remove('hidden');
+                `jangan lupa jaga pola makan yaa sayangg, selalu semangat kuliahnya, selalu sayang sama ortu dan aku, dan jangan lupa skripsi di kerjain yaa sayangkuu. <br><br>` +
+                `maaf ya sayang aku baru bisa kasih sesuatu yang sederhana ini 😔<br><br>` +
+                `kamu ga boleh nyerah yaa!!, kalau ada masalah cerita ke aku yaa, aku selalu mendukung dan suport kamu, selalu sampaikan semua keluh kesah kamu ke aku ❤️`;
+            
+            document.getElementById('popup1').classList.add('hidden');
+            document.getElementById('popup2').classList.remove('hidden');
+            currentPopup = 2;
         }
 
         function lanjutKePopup3(){
-
-            document
-                .getElementById('popup2')
-                .classList
-                .add('hidden');
-
-            document
-                .getElementById('popup3')
-                .classList
-                .remove('hidden');
+            document.getElementById('popup2').classList.add('hidden');
+            document.getElementById('popup3').classList.remove('hidden');
+            currentPopup = 3;
 
             const video = document.getElementById('videoKita');
-
             video.play().catch(error => {
-
-                console.log(
-                    "Autoplay diblokir browser."
-                );
-
+                console.log("Autoplay diblokir browser.");
             });
+
+            // Jalankan efek mengetik perlahan
+            ketikTeks();
+        }
+
+        // Fungsi efek mengetik per huruf
+        function ketikTeks(){
+            const teks = "I Love You Sayangkuu ❤️❤️❤️";
+            const elemenTeks = document.getElementById('teksKetik');
+            elemenTeks.innerHTML = ""; // Reset teks
+            elemenTeks.classList.remove('heartbeat-animation'); // Reset animasi detak jantung
+            
+            let i = 0;
+            function ketik() {
+                if (i < teks.length) {
+                    elemenTeks.innerHTML += teks.charAt(i);
+                    i++;
+                    setTimeout(ketik, 500); // Kecepatan ketik tetap lambat (500ms) sesuai request
+                } else {
+                    // Setelah selesai mengetik, tambahkan efek berdetak (heartbeat)
+                    elemenTeks.classList.add('heartbeat-animation');
+                }
+            }
+            ketik();
         }
 
         function lanjutKePopup4(){
-
-            document
-                .getElementById('popup3')
-                .classList
-                .add('hidden');
-
-            document
-                .getElementById('popup4')
-                .classList
-                .remove('hidden');
+            document.getElementById('popup3').classList.add('hidden');
+            document.getElementById('popup4').classList.remove('hidden');
+            currentPopup = 4;
         }
 
         function kirimWA(){
-
             const nomorWA = "6282327352166";
-
-            const pesan = encodeURIComponent(
-                "i love you more ❤️"
-            );
-
-            const urlWA =
-                `https://api.whatsapp.com/send?phone=${nomorWA}&text=${pesan}`;
-
+            const pesan = encodeURIComponent("i love you more Sayangg 🫶🏻");
+            const urlWA = `https://api.whatsapp.com/send?phone=${nomorWA}&text=${pesan}`;
             window.open(urlWA,'_blank');
         }
-
     </script>
-
 </body>
 </html>
