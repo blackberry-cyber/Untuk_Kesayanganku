@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Semangat Skripsi Sayang! ❤️</title>
+    <title>Semangat selalu Sayang! ❤️</title>
 
     <style>
         *{
@@ -60,6 +60,7 @@
             margin-bottom:15px;
             font-size:1.5rem;
             font-weight:600;
+            transition: all 0.5s ease;
         }
 
         p{
@@ -67,6 +68,10 @@
             font-size:1rem;
             line-height:1.6;
             margin-bottom:25px;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 1;
+            filter: blur(0);
+            transform: scale(1);
         }
 
         input[type="text"]{
@@ -130,12 +135,12 @@
         }
 
         .love-text{
-            font-size:1.8rem;
+            font-size:1.3rem; 
             color:#ff4d6d;
             font-weight:700;
             margin-bottom:20px;
             letter-spacing:1px;
-            min-height: 2.5rem; 
+            min-height: 2.0rem; 
         }
         
         .heartbeat-animation {
@@ -144,8 +149,8 @@
 
         @keyframes heartbeat{
             0%, 40%, 80%, 100%{ transform:scale(1); }
-            20%{ transform:scale(1.08); } 
-            60%{ transform:scale(1.12); }
+            20%{ transform:scale(1.06); } 
+            60%{ transform:scale(1.10); }
         }
 
     </style>
@@ -153,6 +158,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
+    <audio id="musikLatar" loop>
+        <source src="musik-kita.mp3" type="audio/mp3">
+    </audio>
 
     <div id="popup1" class="popup-box">
         <h2>Halo Sayangkuuu! ✨</h2>
@@ -167,9 +176,9 @@
     </div>
 
     <div id="popup2" class="popup-box hidden">
-        <h2>Semangat Yaaaa! 🕊️</h2>
+        <h2 id="headerSemangat">Semangat Yaaaa! 🕊️</h2>
         <p id="ucapanTeks"></p>
-        <button id="btnPopup2" onclick="lanjutKePopup3()">Next</button>
+        <button id="btnPopup2" class="hidden" onclick="lanjutKePopup3()">Next</button>
     </div>
 
     <div id="popup3" class="popup-box hidden">
@@ -197,21 +206,22 @@
     <script>
         let namaUser = "";
         let currentPopup = 1;
+        let bolehNextPopup2 = false; 
 
+        // --- PEMBARUAN LOGIKA WAKTU REAL-TIME AKSES ---
         function dapatkanWaktu(){
             const jam = new Date().getHours();
-            if(jam >= 0 && jam < 11){ return "selamat pagi 🥰"; }
-            if(jam >= 11 && jam < 15){ return "selamat siang 🥰"; }
-            if(jam >= 15 && jam < 18){ return "selamat sore 🥰"; }
-            return "selamat malam 🥰";
+            if(jam >= 0 && jam < 11){ return "selamat pagi"; }
+            if(jam >= 11 && jam < 15){ return "selamat siang"; }
+            if(jam >= 15 && jam < 19){ return "selamat sore"; }
+            return "selamat malam";
         }
 
-        // Fitur tekan Enter untuk lanjut
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
                 if (currentPopup === 1) {
                     lanjutKePopup2();
-                } else if (currentPopup === 2) {
+                } else if (currentPopup === 2 && bolehNextPopup2) { 
                     lanjutKePopup3();
                 } else if (currentPopup === 3) {
                     lanjutKePopup4();
@@ -230,14 +240,45 @@
 
             namaUser = input;
             const waktu = dapatkanWaktu();
+            const elemenUcapan = document.getElementById('ucapanTeks');
+            const tombolNext2 = document.getElementById('btnPopup2');
 
-            document.getElementById('ucapanTeks').innerHTML =
-                `Haiii <b>${namaUser}</b> ${waktu}, ` +
-                `jangan lupa jaga pola makan yaa sayangg, selalu semangat kuliahnya, selalu sayang sama ortu dan aku, dan jangan lupa skripsi di kerjain yaa sayangkuu. <br><br>` +
-                `maaf ya sayang aku baru bisa kasih sesuatu yang sederhana ini 😔<br><br>` +
-                `kamu ga boleh nyerah yaa!!, kalau ada masalah cerita ke aku yaa, aku selalu mendukung dan suport kamu, selalu sampaikan semua keluh kesah kamu ke aku ❤️`;
+            tombolNext2.classList.add('hidden');
+            bolehNextPopup2 = false;
+
+            const musik = document.getElementById('musikLatar');
+            musik.currentTime = 0; 
+            musik.volume = 0.7;    
+            musik.play().catch(err => console.log("Gagal memutar audio otomatis:", err));
+
+            // --- STRUKTUR KALIMAT DENGAN KETERANGAN WAKTU BARU ---
+            elemenUcapan.innerHTML = 
+                `Haiii <b>${namaUser}</b>, ${waktu}.. 🥰<br><br>` +
+                `Maaf ya, apabila selama bersamaku hidupmu jadi terasa terbebani. Maaf juga kalau aku belum bisa sepenuhnya kasih perhatian yang mungkin kamu harapkan dariku.. 🥀<br><br>` +
+                `Aku sadar, aku hanya laki-laki sederhana yang ngga punya banyak harta. Tapi percayalah, aku mencintaimu dengan sepenuh hati dan menyayangimu dengan ikhlas.<br><br>` +
+                `Aku akan selalu berusaha untuk menjadi laki-laki terbaikmu.. 🤍`;
             
-            // Pancing browser agar mengenali interaksi user untuk memutar audio nanti
+            setTimeout(function() {
+                elemenUcapan.style.opacity = "0";
+                elemenUcapan.style.filter = "blur(8px)";
+                elemenUcapan.style.transform = "scale(0.95)";
+                
+                setTimeout(function() {
+                    elemenUcapan.innerHTML =
+                        `Oya, <b>${namaUser} ☺️</b><br><br>` +
+                        `Jangan lupa buat selalu jaga pola makan kamu, jaga ibadahmu, selalu semangat kuliahnya, sayang sama orang tua dan juga aku, dan skripsinya jangan lupa dicicil dikit-dikit yaa sayangkuu... SEMANGATT!!!.<br><br>` +
+                        `Maaf ya kalau aku baru bisa kasih sesuatu yang sesederhana ini 😔<br><br>` +
+                        `Kamu ga boleh menyerah ya! Kalau ada masalah atau lagi capek, cerita aja ke aku. Aku bangga punya wanita sepertimu. Aku selalu mendukung dan ada di belakangmu untuk dengerin semua keluh kesah kamu ❤️`;
+                    
+                    elemenUcapan.style.filter = "blur(0)";
+                    elemenUcapan.style.transform = "scale(1)";
+                    elemenUcapan.style.opacity = "1";
+                    
+                    tombolNext2.classList.remove('hidden');
+                    bolehNextPopup2 = true; 
+                }, 600);
+            }, 23000); 
+
             const video = document.getElementById('videoKita');
             video.load(); 
 
@@ -247,50 +288,89 @@
         }
 
         function lanjutKePopup3(){
-            document.getElementById('popup2').classList.add('hidden');
-            document.getElementById('popup3').classList.remove('hidden');
-            currentPopup = 3;
-
-            const video = document.getElementById('videoKita');
+            bolehNextPopup2 = false; 
+            const elemenUcapan = document.getElementById('ucapanTeks');
+            const tombolNext2 = document.getElementById('btnPopup2');
+            const headerSemangat = document.getElementById('headerSemangat');
             
-            // Pengaturan video: pastikan volume penuh, unmuted, dan putar dari awal
-            video.muted = false;
-            video.volume = 1.0;
-            video.currentTime = 0;
-            
-            // Eksekusi putar video dengan suara
-            video.play().catch(error => {
-                console.log("Autoplay bersuara diblokir sistem browser, mencoba memutar ulang...", error);
-                // Fail-safe jika browser tipe super ketat: putar muted lalu un-mute cepat
-                video.muted = true;
-                video.play().then(() => {
-                    setTimeout(() => { video.muted = false; }, 100);
-                });
-            });
+            tombolNext2.classList.add('hidden');
+            headerSemangat.classList.add('hidden');
 
-            // Jalankan efek mengetik perlahan
-            ketikTeks();
+            const musik = document.getElementById('musikLatar');
+            musik.pause();
+            musik.currentTime = 0; 
+
+            const alurKejutan = [
+                "Oh ya, aku ada sedikit kenang-kenangan nihh...",
+                "Siap-siap yaaa... 😄",
+                "3...",
+                "2...",
+                "1...",
+                "Ini diaaaa! 🎉"
+            ];
+
+            function gantiTeksDinamis(index) {
+                if (index < alurKejutan.length) {
+                    elemenUcapan.style.opacity = "0";
+                    elemenUcapan.style.filter = "blur(8px)";
+                    elemenUcapan.style.transform = "scale(0.95)";
+
+                    setTimeout(() => {
+                        elemenUcapan.innerHTML = `<br><br><span style="font-size: 1.3rem; font-weight: 600; color: #ff4d6d;">${alurKejutan[index]}</span>`;
+                        
+                        elemenUcapan.style.filter = "blur(0)";
+                        elemenUcapan.style.transform = "scale(1)";
+                        elemenUcapan.style.opacity = "1";
+
+                        let jedaWaktu = (index === 0 || index === 1) ? 3000 : 1200;
+
+                        setTimeout(() => {
+                            gantiTeksDinamis(index + 1);
+                        }, jedaWaktu);
+
+                    }, 600);
+                } else {
+                    document.getElementById('popup2').classList.add('hidden');
+                    document.getElementById('popup3').classList.remove('hidden');
+                    currentPopup = 3;
+
+                    const video = document.getElementById('videoKita');
+                    video.muted = false;
+                    video.volume = 1.0;
+                    video.currentTime = 0;
+                    
+                    video.play().catch(error => {
+                        console.log("Autoplay diblokir browser, menjalankan fallback...", error);
+                        video.muted = true;
+                        video.play().then(() => {
+                            setTimeout(() => { video.muted = false; }, 100);
+                        });
+                    });
+
+                    ketikTeks();
+                }
+            }
+
+            gantiTeksDinamis(0);
         }
 
-        // Fungsi efek mengetik per huruf
         function ketikTeks(){
-            const teks = "I Love You Sayangkuu ❤️❤️❤️";
+            const teks = "I Love You Sayangkuu ❤️❤️";
             const elemenTeks = document.getElementById('teksKetik');
-            elemenTeks.innerHTML = ""; // Reset teks
-            elemenTeks.classList.remove('heartbeat-animation'); // Reset animasi detak jantung
+            elemenTeks.innerHTML = ""; 
+            elemenTeks.classList.remove('heartbeat-animation'); 
             
             let i = 0;
             function ketik() {
                 if (i < teks.length) {
                     elemenTeks.innerHTML += teks.charAt(i);
                     i++;
-                    setTimeout(ketik, 500); // Kecepatan ketik tetap lambat (500ms) sesuai request
+                    setTimeout(ketik, 250); 
                 } else {
-                    // Setelah selesai mengetik, tambahkan efek berdetak (heartbeat)
                     elemenTeks.classList.add('heartbeat-animation');
                 }
             }
-            ketik();
+            setTimeout(ketik, 800); 
         }
 
         function lanjutKePopup4(){
